@@ -1,0 +1,76 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Anzeige vorbereiten</title>
+<style>
+  body { font-family: Arial; max-width: 700px; margin: 20px auto; line-height: 1.5; }
+  pre { background: #f7f7f7; padding: 15px; border-radius: 6px; white-space: pre-wrap; }
+  button { padding: 8px 12px; margin-top: 10px; cursor:pointer; }
+</style>
+</head>
+
+<body>
+
+<h2>Anzeige vorbereiten</h2>
+
+<!-- Diese Werte werden über die URL gefüllt -->
+<p><strong>Name:</strong> <span id="name"></span></p>
+<p><strong>Anzahl Verstöße:</strong> <span id="anzahl"></span></p>
+<p><strong>Letzter Verstoß:</strong> <span id="datum"></span></p>
+<p><strong>Studio:</strong> <span id="standort"></span></p>
+
+<h3>Vorlage für die Schilderung</h3>
+<pre id="anzeigetext"></pre>
+<button onclick="copyText()">In Zwischenablage kopieren</button>
+
+<h3>Online-Anzeige starten</h3>
+<p>
+<a id="polizeiLink" href="https://www.polizei.de/Polizei/DE/Einrichtungen/Onlinewachen/onlinewachen_node.html" 
+target="_blank">
+➡️ Zur zentralen Online-Wache
+</a>
+</p>
+
+<script>
+// Parameter aus URL laden
+const url = new URL(window.location.href);
+const name = url.searchParams.get("name");
+const anzahl = url.searchParams.get("anzahl");
+const datum = url.searchParams.get("datum");
+const standort = url.searchParams.get("standort");
+const adresse = url.searchParams.get("adresse");
+
+// Werte einsetzen
+document.getElementById("name").textContent = name;
+document.getElementById("anzahl").textContent = anzahl;
+document.getElementById("datum").textContent = datum;
+document.getElementById("standort").textContent = standort;
+
+// Textbaustein erzeugen
+const text = 
+`Ich bin Betreiber des Fitnessstudios ${standort}.
+
+Für das Mitglied ${name} wurden wiederholt CheckIn-Verstöße festgestellt.
+Die Vorfälle betreffen den Zeitraum bis zum letzten Verstoß am ${datum}.
+
+Anzahl der dokumentierten Verstöße:
+${anzahl}
+
+Ort der Tat:
+${adresse}
+
+Die Vorfälle wurden anhand der CheckIn-Kontrolle protokolliert.
+Ich bitte um Prüfung des Sachverhalts.`;
+
+document.getElementById("anzeigetext").textContent = text;
+
+// Copy-Funktion
+function copyText() {
+  navigator.clipboard.writeText(text);
+  alert("Text kopiert!");
+}
+
+</script>
+
+</body>
+</html>
